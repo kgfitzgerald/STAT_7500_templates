@@ -1,0 +1,70 @@
+---
+title: "R HW 01: Hello R!"
+author: "YOUR NAME HERE"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: "tango"
+    theme: "cosmo"
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(datasauRus)
+```
+
+# Exercise 1
+
+> YOUR ANSWER HERE
+
+# Exercise 2
+
+```{r ex-2}
+```
+
+# Exercise 3
+
+```{r ex-3}
+```
+
+> YOUR COMMENTS HERE
+
+# Exercise 4
+
+```{r ex-4}
+```
+
+> YOUR COMMENTS HERE
+
+# Exercise 5
+
+```{r ex-5}
+
+```
+
+> YOUR COMMENTS HERE
+
+# Reflection prompts
+
+*Respond to each of the following after you have completed all exercises in this assignment*
+
+*(RP1): What were the main concepts covered in this assignment?*
+
+> YOUR ANSWER HERE
+
+*(RP2): What's one thing you understand better after completing these exercises?*
+
+> YOUR ANSWER HERE
+
+*(RP3): What exercise(s) gave you the most trouble? What was difficult about them/where did you get stuck?*
+
+> YOUR ANSWER HERE
