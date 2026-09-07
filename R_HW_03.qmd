@@ -1,5 +1,5 @@
 ---
-title: "R HW 02"
+title: "R HW 03"
 author: "YOUR NAME HERE"
 date: "`r Sys.Date()`"
 format: 
@@ -18,16 +18,12 @@ editor_options:
 ```{r}
 #| label: load-packages
 #| message: false
-library(tidyverse)
-library(palmerpenguins)
+
 ```
 
 # Exercise 1
 
-
-```{r}
-
-```
+> YOUR ANSWER HERE
 
 # Exercise 2
 
@@ -94,18 +90,18 @@ library(palmerpenguins)
 
 > YOUR COMMENTS HERE
 
-# Reflection prompts
+# Exercise 10
 
-*Respond to each of the following after you have completed all exercises in this assignment*
+```{r}
 
-*(RP1): What were the main concepts covered in this assignment?*
+```
 
-> YOUR ANSWER HERE
+> YOUR COMMENTS HERE
 
-*(RP2): What's one thing you understand better or can do more confidently after completing these exercises?*
+# Exercise 11
 
-> YOUR ANSWER HERE
+```{r}
 
-*(RP3): Where did you experience the most difficulty or uncertainty? Describe where you got stuck, what you tried, and what ultimately helped—or what remains unresolved.*
+```
 
-> YOUR ANSWER HERE
+> YOUR COMMENTS HERE

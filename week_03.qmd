@@ -1,0 +1,247 @@
+---
+title: "Week 03: Data viz exploration"
+author: "STAT 7500"
+date: today
+format:
+  html:
+    self-contained: true
+    toc: true
+    number-sections: false
+    highlight-style: tango
+    theme: cosmo
+    df-print: paged
+editor: visual
+editor_options:
+  chunk_output_type: console
+---
+
+## R Tips of the Day
+
+1.  Take notes in this document! Will serve as a useful reference for homework
+2.  The "Save" Icon (+ Rendering)
+3.  Code chunks
+    - code goes on new line, NOT in curly brackets
+    - Make sure "Play" button is visible
+    - Source vs. Visual viewer
+    - Suppressing messages, warnings, etc
+    - echo
+    - eval
+4.  Installing packages
+5.  Console versus .qmd
+
+## Goals
+
+Today, we will practice using visualization as a tool for **asking and refining questions**, not just answering questions we already have.
+
+By the end of class, you should be able to:
+
+- translate a question into a visualization;
+- build and revise a `ggplot` in layers;
+- describe what a visualization reveals and what it makes you wonder;
+- make purposeful choices about plot type, aesthetics, and faceting.
+
+You do not need to submit this practice. Follow along, experiment, and keep notes that will be useful for the homework.
+
+## Packages
+
+```{r}
+#| label: load-packages
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(viridis)
+```
+
+## Meet the data
+
+The `midwest` data frame is included in the **ggplot2** package. It contains demographic characteristics of counties in five Midwestern states.
+
+```{r}
+#| label: meet-data
+
+glimpse(midwest)
+```
+
+Run `?midwest` in the Console to open the documentation.
+
+### Before we plot
+
+With a partner, take two minutes to inspect the variable names and documentation.
+
+1.  What does each row represent?
+2.  Which variables catch your attention?
+3.  Write down **at least two questions** that these data might help us explore. Do not worry yet about how to code them.
+
+## Cycle 1: Start simple, then notice
+
+### One numerical variable
+
+We will start with a broad question:
+
+> How does population density vary across Midwestern counties?
+
+```{r}
+#| label: demo-pop-density
+
+# Live code here
+# make sure to add informative titel and x-axis label
+```
+
+### Pause: notice and wonder
+
+### Your turn
+
+Explore the distribution of county poverty rates (`percbelowpoverty`).
+
+1.  Create an appropriate visualization.
+2.  Try at least two values for `bins` or `binwidth`. Which version helps you see the distribution more clearly?
+3.  Give the plot an informative title and x-axis label.
+4.  Be ready to share one thing you notice or wonder.
+
+```{r}
+#| label: your-turn-poverty
+
+# Your code here
+
+```
+
+## Cycle 2: Use categories to compare groups
+
+### Watch: one numerical and one categorical variable
+
+> Do counties in some states tend to be geographically larger than counties in others?
+
+Before we code:
+
+- What type of variable is `area`?
+- What type of variable is `state`?
+- Which visualization would help us compare the distribution of `area` across states?
+
+```{r}
+#| label: demo-area-state
+
+# Live code here
+```
+
+### Pause: interpret the comparison
+
+Discuss with your partner:
+
+- What differences among states are visible?
+- What features of the distributions would we miss if we compared only the mean area in each state?
+
+### From one categorical variable to two
+
+The variable `inmetro` indicates whether a county is located in a metropolitan area. Run the code below to create a clearer categorical version of this variable.
+
+```{r}
+#| label: create-metro
+
+midwest <- midwest |>
+  mutate(metro = if_else(inmetro == 1, "Metro", "Non-metro"))
+```
+
+### Predict before plotting
+
+Consider these two questions:
+
+1. Which states have the **largest numbers** of metro and non-metro counties?
+2. In which states is the **largest proportion** of counties metropolitan?
+
+Would the same plot answer both questions? What would need to change?
+
+### Watch: compare counts
+
+We will first create a plot that answers the question about the **number** of counties.
+
+```{r}
+#| label: demo-metro-counts
+
+# Live code here
+```
+
+### Your turn: compare proportions
+
+Modify the plot so that each bar has the same total height and displays proportions rather than counts. Add informative axis labels, a legend title, and a plot title.
+
+```{r}
+#| label: your-turn-metro-proportions
+
+# Your code here
+```
+
+Discuss with your partner:
+
+- Which question does each plot answer?
+- What becomes easier to compare in the proportion plot?
+- What incorrect conclusion might someone draw if they used the count plot to compare proportions?
+
+## Cycle 3: Build a relationship, then complicate it
+
+### Two numerical variables
+
+> What is the relationship between the percentage of adults with a college degree (`percollege`) and the percentage of people below the poverty line (`percbelowpoverty`)?
+
+Before we code: What plot type fits this question? What would you expect to see?
+
+```{r}
+#| label: demo-college-poverty
+
+# Live code here
+```
+
+### What should we try next?
+
+The first plot is rarely the final plot. What could explain variation or help us see the relationship more clearly?
+
+We will choose one idea from the class and revise the plot.
+
+```{r}
+#| label: revise-college-poverty
+
+# Revise the plot here
+
+```
+
+### Your turn
+
+Create a version of the college–poverty plot with a separate panel for each state.
+
+- Add a smooth curve to each panel with `geom_smooth(se = FALSE)`.
+- Include clear labels.
+- Compare this plot with the original: What becomes easier to see? What becomes harder to see?
+
+```{r}
+#| label: your-turn-facets
+
+# Your code here
+```
+
+> **Interpretation:**
+
+## Open exploration: follow a question
+
+Return to the questions you generated at the beginning or write a new question inspired by today’s plots. With your partner:
+
+1.  State one question you want to investigate.
+2.  Identify the variable or variables involved and their types.
+3.  Choose a plot that fits the question.
+4.  Create a first version.
+5.  Look at it and revise **one thing** in response to what you see.
+6.  Record one finding and one follow-up question.
+
+You may use the [ggplot2 reference](https://ggplot2.tidyverse.org/reference/) or code from the lecture slides.
+
+> **Question:**
+
+```{r}
+#| label: open-exploration
+
+# Your code here
+```
+
+> **What we found:**
+
+> **What we wonder next:**
+
