@@ -1,0 +1,116 @@
+---
+title: "R HW 04: Data Wrangling"
+author: "YOUR NAME HERE"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: "tango"
+    theme: "cosmo"
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: load-packages
+#| message: false
+
+library(tidyverse)
+library(scales)
+library(ggbeeswarm)
+```
+
+# Load Data
+
+```{r load-data, message = F}
+midwest <- ggplot2::midwest
+```
+
+# Exercise 1
+
+```{r}
+
+```
+
+> YOUR ANSWER HERE
+
+# Exercise 2
+
+```{r ex-2}
+
+```
+
+> YOUR ANSWER HERE
+
+# Exercise 3
+
+```{r ex-3}
+#Identify the counties with a population density higher than 25,000
+
+
+#Identify the county with the highest population density.
+```
+
+# Exercise 4
+
+```{r ex-4}
+
+```
+
+# Exercise 5
+
+```{r ex-5}
+
+```
+
+# Dataset #2
+
+```{r}
+nc_county <- read_csv("data/nc-county.csv")
+```
+
+# Exercise 6
+
+```{r ex-6}
+
+```
+
+# Exercise 7
+
+```{r ex-7}
+
+```
+
+# Exercise 8
+
+```{r}
+
+```
+
+# Exercise 9
+
+```{r ex-9}
+
+```
+
+# Exercise 10
+
+```{r ex-10}
+
+```
+
+> YOUR ANSWER HERE
+
+# Exercise 11
+
+> YOUR QUESTION HERE
+
+```{r}
+
+```
+
+> YOUR COMMENTS HERE
