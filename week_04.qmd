@@ -1,0 +1,169 @@
+---
+title: "NYC flights - data wrangling"
+author: "YOUR NAME HERE"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: "tango"
+    theme: "cosmo"
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(nycflights13)
+```
+
+To demonstrate data wrangling we will use a dataset of characteristics of all flights departing from New York City (JFK, LGA, EWR) in 2013. We will use the `flights` data frame that comes from the `nycflights13` package.
+
+We first explore the data a bit. Examine the documentation as well.
+
+```{r}
+glimpse(flights)
+```
+
+# Exercises
+
+Practice using `dplyr` verbs to perform each of the following tasks. Unless explicitly stated, you should not save the output into an object.
+
+# `select()`
+
+1.  Select only the departure delay and arrival delay columns. *Check: dimensions should be 336776 x 2*
+
+```{r}
+
+```
+
+2.  Select all variables in `flights`, excluding departure delays. *Check: dimensions should be 336776 x 18*
+
+```{r}
+
+```
+
+3.  Select just the first three variables in `flights` . *Check: dimensions should be 336776 x 3*
+
+```{r}
+
+```
+
+# `arrange()`
+
+4.  Arrange the `flights` data by descending departure delays, with large departure delays on top. *Check: top row have `dep_delay`* *of 1301*
+
+```{r}
+
+```
+
+# `slice()`
+
+5.  Select (`slice`) the first 5 rows of `flights` . *Check: dimensions should be 5 x 19.*
+
+```{r}
+
+```
+
+6.  Combine `arrange` and `slice` to select the 5 flights with the longest departure delays. *Check: dimensions should be 5 x 19, 5th row should have `dep_delay`* *of 1005.*
+
+```{r}
+
+```
+
+# `filter()`
+
+7.  Select all rows where the destination airport is "LAX". *Check: dimensions should be 16174 x 19*
+
+```{r}
+
+```
+
+8.  Select all rows where the destination airport is "LAX" and the arrival delay is less than 0. *Check: dimensions should be 9790 x 19*
+
+```{r}
+
+```
+
+9.  Select all rows where the destination airport is "LAX", "BUR", or "LGB" AND the departure or the arrival delay is negative. *Check: dimensions should be 12492 x 19*
+
+```{r}
+
+```
+
+# `mutate()`
+
+10. `air_time` is provided in minutes. Create a new variable called `hours` that coverts `air_time` to hours. Make sure to save this new variable by overwriting the `flights` dataframe. *Check: dimensions of `flights` should now be 336776 x 20. First value of `hours`* *should be* 3.7833333.
+
+```{r}
+
+```
+
+11. Create a new variable called `mph` that computes the miles traveled (`distance`) per hour. Make sure to save this variable. *Check: dimensions of `flights` should now be 336776 x 21. First value of `mph`* *should be* 370.0441
+
+```{r}
+
+```
+
+12. Create a new variable called `on_time` that is `TRUE` if the flight is on time (or early) and `FALSE` if it is not. Make sure to save this variable. *Check: dimensions of `flights` should now be 336776 x 22. First value of `on_time`* should be FALSE.
+
+```{r}
+
+```
+
+# `summarise()` and `group_by()`
+
+13. Calculate the average departure delay. *Check: answer should be 12.6*
+
+```{r}
+
+```
+
+14. Calculate the average departure delay for each month. *Check: dimensions should be 12 x 2*
+
+```{r}
+
+```
+
+15. Count the number of on-time flights for each month. *Check: count should be 15248 in January.*
+
+```{r}
+
+```
+
+16. Compute the proportion of flights that are on-time for each month. *Check: proportion should be 0.565 for January.*
+
+```{r}
+
+```
+
+17. In addition to the proportion on time for each month, also find the maximum delay, median delay, and the count of flights in each month. *Check: dimensions should be 12 x 5.*
+
+```{r}
+
+```
+
+18. What is the proportion on time for flights traveling to "LAX", "BUR", and "LGB"? *Check: Proportion on time for Burbank is 0.55.*
+
+```{r}
+
+```
+
+# More (optional) practice
+
+19. Create a new dataset that only contains flights that do not have a missing departure time. Include the columns `year`,`month`, `day`, `dep_time`, `dep_delay`, and `dep_delay_hours` (the departure delay in hours). Note you may need to use `mutate()` to make one or more of these variables. *Check: dimensions should be 328521 x 6.*
+
+```{r}
+
+```
+
+20. For each airplane (uniquely identified by `tailnum`), use a `group_by()` paired with `summarize()` to find the sample size, mean, and standard deviation of flight distances. Then, pick off the top 5 and bottom 5 airplanes in terms of mean distance traveled per flight. *Check: dimensions should be 10 x 4. Largest mean is 173, smallest is 4983.*
+
+```{r}
+
+```
