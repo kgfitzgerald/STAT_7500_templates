@@ -1,0 +1,51 @@
+---
+title: "R HW 05: Google survey"
+author: "YOUR NAME HERE"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: "tango"
+    theme: "cosmo"
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(viridis)
+library(lubridate)
+```
+
+```{r read-in-data, message = FALSE, warning = FALSE}
+
+```
+
+# Exercise 1
+
+```{r ex-1}
+```
+
+...
+
+# Reflection prompts
+
+*Respond to each of the following after you have completed all exercises in this assignment*
+
+*(RP1): What were the main concepts covered in this assignment?*
+
+> YOUR ANSWER HERE
+
+*(RP2): What's one thing you understand better after completing these exercises?*
+
+> YOUR ANSWER HERE
+
+*(RP3): What exercise(s) gave you the most trouble? What was difficult about them/where did you get stuck?*
+
+> YOUR ANSWER HERE

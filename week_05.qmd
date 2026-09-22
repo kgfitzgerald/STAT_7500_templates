@@ -103,7 +103,7 @@ Finally, create an effective visualization of the data to investigate if there a
 
 ## (FOR LATER) Extra mapping fun
 
-Try re-creating the visualization below and/or exploring other ways to visualized the flights data spatially. *Note, to view the image in your html, download the "flights_map.png" file and place it in a (new) images subfolder of your STAT_7500 folder.*
+We will try re-creating the visualization below and/or exploring other ways to visualized the flights data spatially. *Note, to view the image in your html, download the "flights_map.png" file and place it in a (new) images subfolder of your STAT_7500 folder.*
 
 ![](images/flights_map.png)
 
