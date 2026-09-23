@@ -1,7 +1,7 @@
 ---
-title: "R HW 05: Google survey"
+title: "R HW 05: Women's Soccer"
 author: "YOUR NAME HERE"
-date: "`r Sys.Date()`"
+date: today
 format: 
   html:
     self-contained: true
@@ -18,27 +18,69 @@ editor_options:
 ```{r}
 #| label: load-packages
 #| message: false
-library(tidyverse)
-library(viridis)
-library(lubridate)
-```
-
-```{r read-in-data, message = FALSE, warning = FALSE}
 
 ```
 
 # Exercise 1
 
 ```{r ex-1}
+
 ```
 
-...
+# Exercise 2
+
+```{r ex-2}
+```
+
+# Exercise 3
+
+```{r ex-3}
+```
+
+# Exercise 4
+
+```{r ex-4}
+```
+
+> YOUR ANSWER HERE
+
+# Exercise 5
+
+```{r ex-5}
+```
+
+> YOUR ANSWER HERE
+
+# Exercise 6
+
+```{r ex-6}
+```
+
+> YOUR ANSWER HERE
+
+# Exercise 7
+
+```{r ex-7}
+```
+
+> YOUR ANSWER HERE
+
+# Exercise 8
+
+```{r ex-8}
+```
+
+# BONUS
+
+```{r bonus}
+
+```
 
 # Reflection prompts
 
 *Respond to each of the following after you have completed all exercises in this assignment*
 
-*(RP1): What were the main concepts covered in this assignment?*
+*(RP1): What were the main concepts / skills covered in this assignment?*
 
 > YOUR ANSWER HERE
 
