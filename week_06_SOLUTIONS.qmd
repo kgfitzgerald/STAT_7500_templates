@@ -1,0 +1,74 @@
+---
+title: "week_06"
+format: html
+---
+
+```{r, message = FALSE, warning = FALSE}
+library(dsbox) # package with UC Berkley data
+library(tidyverse)
+```
+
+```{r}
+#1.	What can you add on to the ucbadmit |> count(dept, gender, admit) pipeline to compute the proportions accepted/rejected for each gender x dept combination?
+ucbadmit |> 
+  count(dept, gender, admit) |> 
+  group_by(gender, dept) |> 
+  mutate(prop = n/sum(n))
+
+# altertnative 
+ucbadmit |> 
+  group_by(dept, gender) |> 
+  summarize(num_admitted = sum(admit == "Admitted"),
+            n = n()) |> 
+  mutate(prop = num_admitted/n)
+
+
+
+# to show intermediate step of how admit == "Admitted" works
+#(creates columns of TRUE and FALSE, which R interprets as 1 and 0)
+ucbadmit |> 
+  group_by(dept, gender) |> 
+  mutate(admitted_TF = admit == "Admitted") #|> View()
+
+#2.	How many rows and columns will result from the following code?
+ucbadmit |> 
+  group_by(dept, gender) |> 
+  summarize(prop_admitted = sum(admit == "Admitted")/n())
+
+
+#3. producing wide table
+ucbadmit |> 
+  count(dept, gender, admit) |> 
+  pivot_wider(names_from = dept,
+               values_from = n) #|> 
+  # uncomment these lines if you want to send back to long
+  # pivot_longer(cols = A:F,
+  #              names_to = "dept",
+  #              values_to = "n")
+
+
+```
+
+```{r}
+#4.	What code could you add to a ucbadmit |> count(dept, gender, admit) pipeline to produce the following table. Note, this may require several steps.
+  
+# option 1
+ucbadmit |> 
+  count(dept, gender, admit) |> 
+  group_by(dept, gender) |> 
+  mutate(n_applied = sum(n)) |> 
+  mutate(prop_admit = n/sum(n)) |> 
+  filter(admit == "Admitted")
+
+# option 2
+ucbadmit |> 
+  count(dept, gender, admit) |> 
+  pivot_wider(names_from = admit,
+              values_from = n) |> 
+  mutate(n_applied = Rejected + Admitted,
+         prop_admit = Admitted/n_applied) |> 
+  select(-Rejected) |> 
+  rename(n_admittd = Admitted)
+
+```
+
