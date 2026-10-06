@@ -1,0 +1,129 @@
+---
+title: "Data Importing & Cleaning: Class Practice"
+subtitle: "STAT 7500"
+author: "Your name"
+format:
+  html:
+    toc: true
+    embed-resources: true
+execute:
+  warning: true
+  message: false
+---
+
++ Make sure this .qmd is placed in your STAT_7500 folder. 
++ Download cat-lovers.csv from Github and place it in the data subfolder
++ This .qmd uses the same cat-lovers data and hotel data as the slides.
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(lubridate)
+
+cat_lovers_raw <- read_csv("data/cat-lovers.csv")
+```
+
+## Practice 1: Diagnose before fixing
+
+The following code produces a warning and does not calculate the intended mean:
+
+```{r}
+#| eval: false
+cat_lovers_raw |>
+  summarise(mean_cats = mean(number_of_cats, na.rm = TRUE))
+```
+
+1. Inspect the different responses to `number_of_cats` and how often each appears. What type is the column?
+2. Find the original responses from Ginger Clark and Doug Bass. Propose a cleaning rule and identify any assumptions it requires.
+3. Why doesn't `na.rm = TRUE` solve this problem?
+
+```{r}
+#| label: inspect-cat-responses
+
+```
+
+**Your observations and proposed rule:**
+
+
+### After the discussion
+
+Record the cleaning pipeline developed in class. Save the result as a new data set while also preserving `cat_lovers_raw`. Check the resulting type and whether the number of missing values changed.
+
+```{r}
+#| label: clean-cat-responses
+
+```
+
+## Practice 2: Change the display, preserve the counts
+
+Make a **horizontal bar chart** of `handedness`, with the most common category at the top. 
+
+Before coding, decide:
+
+- Which axis should contain `handedness`?
+- How will you order its levels?
+- Where will the first level appear on that axis?
+
+Use `fct_infreq()` and, if needed, `fct_rev()`. Add informative axis labels.
+
+```{r}
+#| label: handedness-plot
+
+```
+
+Check your plot against a frequency table.
+
+```{r}
+#| label: check-handedness-counts
+
+```
+
+**What changed about the presentation, and what stayed the same?**
+
+
+## Practice 3: Repair the date pipeline
+
+```{r}
+#| label: read-hotels
+hotels <- read_csv(
+  "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-11/hotels.csv"
+)
+```
+
+The pipeline below runs, but its arrival dates are stored as text. It is shown without executing so you can inspect and adapt it first.
+
+```{r}
+#| eval: false
+hotels |>
+  unite(
+    col = arrival_date,
+    arrival_date_year, arrival_date_month,
+    arrival_date_day_of_month,
+    sep = " "
+  ) |>
+  count(arrival_date) |>
+  ggplot(aes(x = arrival_date, y = n, group = 1)) +
+  geom_line()
+```
+
+1. Identify where the pipeline creates text rather than a date.
+2. Predict whether converting that text to a date will change the counts, the order, or both.
+3. Adapt the pipeline to parse the date and produce a chronologically ordered plot. Add axis labels.
+
+
+```{r}
+#| label: repair-hotel-dates
+
+```
+
+Check the parsed column's class, its earliest and latest dates, and whether parsing introduced missing values. You may save an intermediate data frame to make these checks easier.
+
+```{r}
+#| label: check-hotel-dates
+
+```
+
+**How do you know the revised result makes sense?**
+
+
+
