@@ -1,0 +1,145 @@
+---
+title: "Week 08: Working with strings"
+author: "YOUR NAME HERE"
+date: "today"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: "tango"
+    theme: "cosmo"
+editor: visual
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, message = FALSE}
+library(tidyverse)
+library(babynames)
+library(ggplot2movies)
+```
+
+# State names
+
+R has built-in vectors with the names of all 50 states in the U.S.
+
+```{r}
+state.name
+```
+
+## Exercise 1
+
+Run each line below and add comments to the code to indicate what each line is doing.
+
+```{r}
+str_which(state.name,"V")
+str_subset(state.name,"V")
+str_subset(str_to_upper(state.name),"V")
+str_subset(state.name,"[Vv]")
+```
+
+# Babynames
+
+The `babynames` data contain U.S. baby name counts from the Social Security Administration, 1880–2017. A name is included if it occurs at least 5 times in a year.
+
+**Each row is a name × sex × year combination, not one baby.** `n` is the number of babies with that name, and `prop` is `n` divided by the total number of babies of that sex born that year. Keep this in mind for every question below.
+
+```{r}
+glimpse(babynames)
+```
+
+## Exercise 2
+
+Create four new variables in `babynames` and save the result (you will use these later):
+
+- `name_length`: the number of letters in the name
+- `first_letter`
+- `last_letter`
+- `name_ending`: the last three letters
+
+Check your work by looking at a few rows, including a short name like "Al" or "Bo".
+
+```{r}
+
+```
+
+## Exercise 3
+
+a.  How many **unique names** contain the string "liz"? Should "Lizzie" and "Liza" count? Adjust your code so they do.
+
+b.  Produce a table of the top 10 "liz" names by **total number of babies**, summed over all years.
+
+c.  In one or two sentences: in (a) you counted names, and in (b) you counted babies. Why do these require different code?
+
+```{r}
+
+```
+
+## Exercise 4
+
+Plot the popularity over time of girls' names that start with "Elizab" but are not "Elizabeth".
+
+Use `prop`, not `n`, on the y-axis. In one or two sentences, explain why `prop` is the better choice for comparing popularity across years.
+
+```{r}
+
+```
+
+## Exercise 5
+
+Are girls' names more likely than boys' names to end in a vowel (a, e, i, o, u, y)?
+
+a.  Create a variable indicating whether the name ends in a vowel.
+b.  For each year and sex, calculate the **proportion of babies** with a vowel-ending name.
+c.  Make a line plot of this proportion over time, colored by sex.
+d.  Briefly comment on what you see.
+
+```{r}
+
+```
+
+## Exercise 6
+
+Explore variations of your own name (or a name you choose).
+
+a.  Use `str_starts()`, `str_ends()`, and/or `str_detect()` to find spelling variations.
+b.  Plot the top 3–5 variations over time.
+c.  Explain which names you included or excluded, and why.
+
+```{r}
+
+```
+
+
+# Phillies roster
+
+The Phillies roster data are in one Excel spreadsheet with four sheets: Pitchers, Catchers, Outfielders, and Infielders. Each sheet has the columns `Name`, `B/T`, `Ht`, `Wt`, and `DOB` (see the screenshot in class).
+
+This is real (messy) data scraped from the internet.
+
+## Exercise 7
+
+Conduct the cleaning steps needed to analyze the Phillies roster data.
+
+```{r}
+
+```
+
+## Exercise 8
+
+Which position group (pitchers, catchers, infielders, outfielders) is the tallest on average? Oldest on average?
+
+```{r}
+
+```
+
+## Exercise 9
+
+Does the share of left-handed throwers differ between pitchers and position players?
+
+```{r}
+
+```
+
