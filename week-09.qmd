@@ -1,0 +1,383 @@
+---
+title: "Practice: Statistical Programming"
+subtitle: "STAT 7500"
+author: "Your name"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+```{r setup}
+#| include: false
+library(tidyverse)
+library(scales)
+```
+
+## Before you start
+
+Run the chunk below **once**. It creates a folder, `data/tx-housing-practice/`, with one CSV per year (2011–2014) of the `txhousing` data.
+
+```{r make-files}
+dir.create("data/tx-housing-practice", showWarnings = FALSE, recursive = TRUE)
+for (yr in 2011:2014) {
+  txhousing |>
+    filter(year == yr) |>
+    write_csv(paste0("data/tx-housing-practice/txhousing_", yr, ".csv"))
+}
+
+files <- list.files("data/tx-housing-practice", pattern = "201[1-4]", full.names = TRUE)
+files
+```
+
+Chunks containing `___` are set to `eval: false` so that this document still renders. When you fill in a chunk, delete its `#| eval: false` line.
+
+------------------------------------------------------------------------
+
+## Practice 1: A missing-data audit
+
+Before analyzing a new dataset, it helps to know how much of each column is missing. You will write a small function you can reuse on any data frame.
+
+**1a.** Write a function `prop_missing(x)` that returns the **proportion** of values in `x` that are `NA`.
+
+*Hint:* `is.na()` returns `TRUE`/`FALSE`. What is the mean of a logical vector?
+
+```{r}
+#| eval: false
+prop_missing <- function(x) {
+  ___
+}
+```
+
+**1b.** Test your function on `c(1, NA, 3, NA)`. Write the answer you expect **before** you run it.
+
+*Expected answer:*
+
+```{r}
+#| eval: false
+prop_missing(c(1, NA, 3, NA))
+```
+
+**1c.** Use `prop_missing()` with `summarise(across(everything(), ...))` to audit `txhousing`. Then use `pivot_longer()` so there is one row per variable, sorted from most to least missing.
+
+```{r}
+#| eval: false
+txhousing |>
+  summarise(across(everything(), ___)) |>
+  pivot_longer(___) |>
+  arrange(___)
+```
+
+**1d.** Which variables would you ask questions about before you analyzed them? What would you ask the person who sent you the data?
+
+*Your answer:*
+
+**Bonus.** Add a `digits` argument with a default of `2` that rounds the result. Check that `prop_missing(c(1, NA, NA), digits = 3)` returns `0.667`.
+
+```{r}
+#| eval: false
+
+```
+
+### If you finish early
+
+Write `describe_var(df, var)` that returns a one-row summary of a numeric column: `n`, `n_missing`, `mean`, `median`, and `sd`. Use {{ }} so that column names can be passed directly. Then try it on a grouped data frame:
+
+```{r}
+#| eval: false
+describe_var <- function(df, var) {
+  df |>
+    summarise(
+      n         = ___,
+      n_missing = ___,
+      mean      = ___,
+      median    = ___,
+      sd        = ___
+    )
+}
+
+describe_var(txhousing, median)
+txhousing |> group_by(year) |> describe_var(median)
+```
+
+Why does the grouped version work without any changes to the function?
+
+*Your answer:*
+
+------------------------------------------------------------------------
+
+## Practice 2: A new file every year
+
+A partner emails you a CSV of Texas housing data every year. So far you have four files, one per year (2011–2014), stored in `files`.
+
+**2a. The copy-paste version.** Read all four files by copying and pasting `read_csv()`, then stack them with `bind_rows()`.
+
+```{r}
+#| eval: false
+tx_2011 <- read_csv(files[1])
+tx_2012 <- read_csv(files[2])
+___
+___
+
+tx_copy <- bind_rows(tx_2011, tx_2012, ___, ___)
+tx_copy |> count(year)
+```
+
+**2b. The `map()` version.** Do the same thing in one pipeline. Check that you get the same counts as in 2a.
+
+```{r}
+#| eval: false
+tx_all <- files |>
+  map(___) |>
+  bind_rows()
+
+tx_all |> count(year)
+```
+
+**2c. Next year's file arrives.** Run the chunk below. It adds a 2015 file to the folder and updates `files`.
+
+```{r}
+#| eval: false
+txhousing |>
+  filter(year == 2015) |>
+  write_csv("data/tx-housing-practice/txhousing_2015.csv")
+
+files <- list.files("data/tx-housing-practice", full.names = TRUE)
+files
+```
+
+Now re-run your code from **2a** and **2b** without changing anything.
+
+- Which version includes 2015 automatically?
+- What would you have to edit in the other version? What if the partner had sent 20 years of files?
+
+*Your answer:*
+
+**2d. Now use the combined data.** Using `tx_all`, find the city with the **most total sales** in each year.
+
+```{r}
+#| eval: false
+tx_all |>
+  ___
+```
+
+Why might 2015 look different from the other years? *(Hint: `tx_all |> filter(year == 2015) |> count(month)`.)*
+
+*Your answer:*
+
+### If you finish early
+
+Your manager wants a PNG of median sale price over time for **three cities of your choice**, saved to a folder called `plots/`.
+
+1.  Write `city_plot(city_name)` that returns a ggplot for one city.
+2.  Test it on one city.
+3.  Use a `for` loop with `ggsave()` to save all three.
+
+```{r}
+#| eval: false
+dir.create("plots", showWarnings = FALSE)
+
+city_plot <- function(city_name) {
+  ___
+}
+
+my_cities <- c(___)
+
+for (i in 1:length(my_cities)) {
+  ggsave(
+    filename = ___,
+    plot     = ___,
+    width = 6, height = 4
+  )
+}
+```
+
+Open the `plots/` folder and check that three files are there.
+
+------------------------------------------------------------------------
+
+## Practice 3: A quality audit
+
+You are asked to spot-check a sample of the `diamonds` inventory.
+
+**3a.** Set a seed and draw a 1% sample of `diamonds` using `slice_sample()`. Compare the sample's mean `price` with the full data's mean `price`.
+
+```{r}
+#| eval: false
+set.seed(___)
+audit_1pct <- diamonds |> ___
+
+mean(audit_1pct$price)
+mean(diamonds$price)
+```
+
+**3b.** The audit team wants **10 diamonds of each `color`**. Draw that stratified sample and use `count()` to verify it.
+
+```{r}
+#| eval: false
+
+```
+
+**3c.** Run the chunk below several times. It draws a 1% sample **without** a seed. Record a few of the sample means. Roughly how far from the full-data mean do they typically land?
+
+```{r}
+diamonds |>
+  slice_sample(prop = 0.01) |>
+  summarise(mean_price = mean(price))
+```
+
+*Your answer:*
+
+**3d.** Why should the audit report include the seed?
+
+*Your answer:*
+
+### If you finish early: balanced A/B assignment by region
+
+Marketing wants to test a new email design. They need **equal-sized groups within each region**, so that one group isn't mostly from the West, for example.
+
+```{r}
+set.seed(7500)
+customers <- tibble(
+  customer_id = 1:400,
+  region = sample(c("North", "South", "East", "West"), 400,
+                  replace = TRUE, prob = c(0.4, 0.3, 0.2, 0.1))
+)
+```
+
+Add a `group` column (`"control"` or `"new_email"`) so that the groups are as balanced as possible **within each region**. Check your result with `count(region, group)`.
+
+*Hint:* `group_by()` + `mutate()` + `sample(rep(...))` from the slides.
+
+```{r}
+#| eval: false
+
+```
+
+------------------------------------------------------------------------
+
+## Practice 4: How many muffins?
+
+A coffee shop sells an average of **40 muffins a day**. Daily demand follows a Poisson distribution. Each morning they bake a fixed number.
+
+**4a.** Write `sold_out(baked)` that simulates **one day** of demand and returns `TRUE` if demand is greater than `baked`.
+
+```{r}
+#| eval: false
+sold_out <- function(baked) {
+  demand <- ___
+  ___
+}
+
+sold_out(45)
+```
+
+**4b.** Estimate P(sell out) when baking 45, using 10,000 simulated days. Then check your answer with `ppois()`.
+
+*Hint:* to get P(demand \> 45), think about what `lower.tail = FALSE` means.
+
+```{r}
+#| eval: false
+set.seed(7500)
+mean(replicate(___, ___))
+
+ppois(___, lambda = 40, lower.tail = FALSE)
+```
+
+**4c.** Estimate P(sell out) for every batch size from 40 to 55. Plot the results with a dashed line at 5%. What is the **smallest** batch that sells out on at most 5% of days?
+
+```{r}
+#| eval: false
+set.seed(7500)
+muffins <- tibble(baked = 40:55) |>
+  mutate(p_sell_out = map_dbl(baked, \(b) ___))
+
+muffins |>
+  ggplot(aes(x = baked, y = p_sell_out)) +
+  ___
+```
+
+*Smallest batch:*
+
+**Bonus.** Saturdays (1 day in 7) average **60** muffins. Add a step to `sold_out()` that randomly decides whether the day is a Saturday.
+
+1.  With **one** fixed batch size for every day, what batch keeps sell-outs at 5% or less?
+2.  Is a fixed batch size a sensible policy? What would you recommend instead?
+
+```{r}
+#| eval: false
+
+```
+
+*Your answer:*
+
+### If you finish early: what about profit?
+
+Each muffin costs **\$1** to bake and sells for **\$3**. Unsold muffins are thrown away.
+
+1.  Write `one_day_profit(baked)`. *Hint:* the shop sells `min(demand, baked)` muffins.
+2.  Estimate the average daily profit for batch sizes 35 to 60, and plot it.
+3.  Which batch size maximizes profit? How does that compare with your 5% sell-out answer? Which would you recommend, and why?
+
+```{r}
+#| eval: false
+
+```
+
+*Your answer:*
+
+------------------------------------------------------------------------
+
+## Practice 5: Bootstrap the 90th percentile
+
+This uses the same audit sample as the slides:
+
+```{r}
+set.seed(7500)
+audit <- diamonds |> slice_sample(n = 150)
+```
+
+**5a.** Build a 95% bootstrap percentile interval for the **median** price, as in the slides. Then build one for the **90th percentile** of price.
+
+```{r}
+#| eval: false
+boot_median <- function(x) ___
+boot_p90    <- function(x) ___
+
+set.seed(7500)
+medians <- replicate(5000, boot_median(audit$price))
+p90s    <- replicate(5000, boot_p90(audit$price))
+
+quantile(medians, c(0.025, 0.975))
+quantile(p90s,    c(0.025, 0.975))
+```
+
+**5b.** Which interval is wider? Make a histogram of `price` in `audit` and use it to explain why.
+
+```{r}
+#| eval: false
+
+```
+
+*Your answer:*
+
+**5c.** Here we have the full `diamonds` data. Does each interval capture the full-data value?
+
+```{r}
+#| eval: false
+median(diamonds$price)
+quantile(diamonds$price, 0.9)
+```
+
+### If you finish early
+
+Finance wants the share of sales above **\$5,000**. Bootstrap a 95% interval for that proportion in `audit`. Compare it with `prop.test(sum(audit$price > 5000), nrow(audit))$conf.int`. Are they similar?
+
+```{r}
+#| eval: false
+
+```
