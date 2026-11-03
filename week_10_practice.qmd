@@ -1,0 +1,273 @@
+---
+title: "Week 10 Practice: Python Foundations"
+subtitle: "Follow-along file for the recorded lecture"
+author: "Your name here"
+format:
+  html:
+    toc: true
+    embed-resources: true
+jupyter: python3
+---
+
+**How to use this file.** Keep it open in Positron while you watch the Week 10 video.
+
+- **Demo** sections: type along with me. Some code is already here so you can focus on the new parts.
+- **Your turn** sections: pause the video, try it, then un-pause for my solution.
+- Tasks are labeled **Core** (everyone), **Stretch** (a twist), and **Experienced** (if you already know Python).
+
+Run chunks one at a time with **Cmd/Ctrl + Enter**, and render the whole document at the end to make sure everything runs top to bottom.
+
+**Seeing your results.** Unlike R, Python only shows the result of the **last line** in a cell. So:
+
+- **While you work:** put your cursor on a line and press **Cmd/Ctrl + Enter**. That runs just that line and shows its result in the Console, just like in R.
+- **Running a function or loop:** put your cursor on the **first** line (`def ...` or `for ...`) before pressing Cmd/Ctrl + Enter, or click **Run Cell** above the cell. If you run a line from the *middle* of a function on its own, you'll get errors like `'return' outside function`.
+- **When you want several results to show up in the rendered file:** use one cell per question, or wrap each line in `print()`, ideally with a label: `print("prop missing:", np.isnan(bill).mean())`.
+
+**Check your indentation setting:** look at the status bar at the bottom right of Positron. It should say **"Spaces: 4"**. If not, click it → *Indent Using Spaces* → **4**. (In Python, indentation is part of the code, and 4 spaces is the standard.)
+
+# Demo 1: Check your setup
+
+Every line should run without an error. If you see `ModuleNotFoundError: No module named 'xyz'`:
+
+1. In the Positron **Python console** (not this document), run `%pip install xyz`.
+2. **Restart the kernel** (the circular-arrow ↻ button in the Console), then re-run this chunk. The running Python won't reliably see newly installed packages until you restart.
+
+Plain `pip install` in the Terminal often fails on a Mac (`command not found`) or installs into a different Python than Positron uses. If you prefer the Terminal, use `python3 -m pip install xyz` (Mac) or `py -m pip install xyz` (Windows).
+
+```{python}
+import sys
+import numpy as np #give shorter name to the library
+import pandas as pd
+import matplotlib
+
+print("Python    ", sys.version.split()[0])
+print("NumPy     ", np.__version__)
+print("pandas    ", pd.__version__)   # should start with 3
+print("matplotlib", matplotlib.__version__)
+```
+
+# Values and types (watch, then try anything you like here)
+
+```{python}
+# Scratch space: try 7 / 2, 2 ** 3, 2 ^ 3, an f-string...
+7/2
+7 // 2
+2*3
+2**3
+2**4
+2^3 
+```
+
+
+# Your turn 1: slicing
+
+```{python}
+months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+```
+
+**Core.** (1) Get `"Mar"`. (2) Get the last three months. (3) Get the fall semester, `"Aug"` through `"Dec"`. (4) Get every third month starting with `"Jan"`.
+
+```{python}
+# your code here
+
+```
+
+**Stretch.** Get every other month starting with `"Feb"`. Then get every other month going *backwards* from `"Dec"`.
+
+```{python}
+# your code here
+
+```
+
+**Experienced.** Predict `months[-3:-1]` and `months[10:100]`, then run them.
+
+```{python}
+# your code here
+
+```
+
+# Demo 2: dicts, from columns to a DataFrame
+
+The `scores` data from R HW 06, stored as a dict of columns:
+
+```{python}
+scores = {"student": ["S1", "S2", "S3", "S4"],
+          "math":    [90, 85, 88, 95],
+          "english": [92, 80, 85, 74]}
+```
+
+```{python}
+# Demo: look up a column, then one value
+# your code here
+
+```
+
+```{python}
+#| error: true
+# Demo: replace a value, add a new key-value pair, check for a key
+# your code here
+
+```
+
+```{python}
+# Demo: turn the dict into a DataFrame
+# your code here
+
+```
+
+**Try it (optional).** Add a `"history"` column with four scores of your choice, then turn `scores` into a DataFrame. How many columns does it have? *Hint:* `len(scores)` counts the keys.
+
+```{python}
+# your code here
+
+```
+
+# Names and mutability
+
+Run this, then explain the output in one sentence below the chunk.
+
+```{python}
+a = [1, 2, 3]
+b = a
+b.append(4)
+print(a)
+```
+
+*Your explanation:*
+
+Now fix it so that `a` is unchanged:
+
+```{python}
+# your code here
+
+```
+
+# Demo 3: NumPy and `standardize()`
+
+```{python}
+mass = np.array([3750, 3800, 3250, 3450, 3650, 4675, 3200])
+```
+
+```{python}
+# Demo: mean, sample SD (careful!), a logical mask
+# your code here
+
+```
+
+Week 9's `standardize()` in R:
+
+```r
+standardize <- function(x) {
+  (x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE)
+}
+```
+
+```{python}
+# Demo: translate standardize() to Python and test it on [1, 2, 3, 4, 5]
+# your code here
+
+```
+
+# Your turn 2: NumPy
+
+```{python}
+bill = np.array([39.1, 39.5, 40.3, np.nan, 36.7, 39.3, 38.9, 39.2, 34.1, 42.0])
+```
+
+**Core.** (1) How many values are missing, and what proportion? (2) Mean bill length, ignoring missing values. (3) Which bill lengths are longer than 40 mm, and what proportion of the non-missing values is that?
+
+```{python}
+# your code here
+
+```
+
+**Stretch.** Run `standardize(bill)`. What happened to the `nan`?
+
+```{python}
+# your code here
+
+```
+
+**Experienced.** Do step 3 *without* dropping `nan` first. Why does `bill > 40` still run, and why is `(bill > 40).mean()` a different number?
+
+```{python}
+# your code here
+
+```
+
+# Demo 4: functions and a missing-data audit
+
+```{python}
+# Demo: loop over a dict with .items()
+# your code here
+
+```
+
+```{python}
+# Demo: prop_missing() with a default argument and a docstring
+# your code here
+
+```
+
+```{python}
+tx = {
+    "city":   np.array([1, 1, 1, 2, 2, 2], dtype=float),
+    "sales":  np.array([95, np.nan, 172, 210, np.nan, np.nan]),
+    "volume": np.array([11.4, 16.9, np.nan, 24.1, 26.3, 30.0]),
+    "median": np.array([105.6, 102.0, 112.0, 119.5, 121.0, 118.4]),
+}
+```
+
+```{python}
+# Demo: apply prop_missing() to every "column" with a dict comprehension
+# your code here
+
+```
+
+# Your turn 3: write a function
+
+**Core.** Write `summarize_num(x)` that returns a **dict** with `n`, `n_missing`, `mean`, and sample `sd` (ignoring missing values). Test it on `[2, 4, 4, 4, 5, 5, 7, 9]` (mean 5, SD about 2.14).
+
+```{python}
+# your code here
+
+```
+
+**Stretch.** Raise a `ValueError` if there are fewer than 2 non-missing values. Test it on `[1, np.nan]`.
+
+```{python}
+#| error: true
+# your code here
+
+```
+
+**Experienced.** Use a dict comprehension to apply `summarize_num()` to every column of `tx`.
+
+```{python}
+# your code here
+
+```
+
+# Demo 5: randomness and the overbooked flight
+
+```{python}
+# Demo: a generator, sampling, and a random draw
+# your code here
+
+```
+
+100 seats, 105 tickets, each passenger shows up with probability 0.95. How often is someone bumped?
+
+```{python}
+# Demo: one flight as a function, then repeat 10,000 times
+# your code here
+
+```
+
+# Exit ticket
+
+Post on the Brightspace HELP Forum exit-ticket thread:
+
+1. One R idea I saw again tonight:
+2. One Python difference that surprised me:
