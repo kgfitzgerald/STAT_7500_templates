@@ -1,0 +1,223 @@
+---
+title: "Python HW 01 - Hello Python!"
+author: "Your name here"
+format:
+  html:
+    embed-resources: true
+jupyter: python3
+---
+
+```{python}
+import numpy as np
+```
+
+# Part 1: Predict, then run
+
+## Exercise 1
+
+Write your prediction for each snippet in the text **before** running the chunk. Then run it and write your explanation.
+
+**(a)** Prediction:
+
+```{python}
+x = [3, 6, 9, 12, 15]
+x[1:4]
+```
+
+Explanation:
+
+**(b)** Prediction:
+
+```{python}
+x[-2]
+```
+
+Explanation:
+
+**(c)** Prediction:
+
+```{python}
+s = "statistics"
+s[:4] + s[-3:]
+```
+
+Explanation:
+
+**(d)** Prediction:
+
+```{python}
+nums = [1, 2, 3]
+more = nums
+more[0] = 100
+nums
+```
+
+Explanation:
+
+**(e)** Prediction:
+
+```{python}
+[1, 2, 3] * 3
+```
+
+Explanation:
+
+**(f)** Prediction:
+
+```{python}
+np.array([1, 2, 3]) * 3
+```
+
+Explanation:
+
+**(g)** Prediction:
+
+```{python}
+def add_one(x):
+    x + 1
+
+add_one(3)
+```
+
+Explanation:
+
+**(h)** Prediction:
+
+```{python}
+3 ** 2 == 3 ^ 2
+```
+
+Explanation:
+
+# Part 2: Containers
+
+```{python}
+survey = {
+    "18-44": {"Very positive": 78, "Somewhat positive": 176, "Neutral": 162,
+              "Somewhat negative": 50, "Very negative": 36, "Unsure": 197},
+    "45+":   {"Very positive": 41, "Somewhat positive": 121, "Neutral": 186,
+              "Somewhat negative": 146, "Very negative": 97, "Unsure": 210},
+}
+```
+
+## Exercise 2
+
+```{python}
+# (a)
+# your code here
+
+```
+
+```{python}
+# (b)
+# your code here
+
+```
+
+# Part 3: NumPy and functions
+
+```{python}
+temps_f = np.array([72, 75, 81, np.nan, 79, 84, 88, 77, 70, np.nan, 83, 86, 90, 74])
+```
+
+## Exercise 3
+
+```{python}
+# (a)
+# your code here
+
+```
+
+```{python}
+# (b)
+# your code here
+
+```
+
+```{python}
+# (c)
+# your code here
+
+```
+
+```{python}
+# (d)
+# your code here
+
+```
+
+What happens to the missing days?
+
+## Exercise 4
+
+```{python}
+commute = np.array([12, 15, 18, 20, 22, 22, 25, 25, 27, 28, 30, 30, 32,
+                    35, 35, 38, 40, 42, 45, 48, 55, 60, 75, 90, 110])
+```
+
+```{python}
+# (a)
+# your code here
+
+```
+
+```{python}
+# (b)
+# your code here
+
+```
+
+```{python}
+# (c)
+# your code here
+
+```
+
+**Stretch (optional):** add the `ValueError` check to your function in (a), and show it working here.
+
+```{python}
+#| error: true
+# your code here
+
+```
+
+# Part 4: Simulation
+
+## Exercise 5
+
+```{python}
+# (a)
+rng = np.random.default_rng(7500)
+
+# your code here
+
+```
+
+```{python}
+# (b)
+# your code here
+
+```
+
+```{python}
+# (c)
+# your code here
+
+```
+
+Largest number of appointments with P(over capacity) ≤ 5%:
+
+**Stretch (optional)**
+
+```{python}
+# your code here
+
+```
+
+# Part 5: Reflection
+
+## Exercise 6
+
+*(a) and (b): write your paragraph here.*
+
+**AI acknowledgment (if applicable):**
