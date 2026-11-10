@@ -1,0 +1,296 @@
+---
+title: "Week 11 Practice: Python Data Wrangling I"
+subtitle: "In-class file"
+author: "Your name here"
+format:
+  html:
+    toc: true
+    embed-resources: true
+jupyter: python3
+---
+
+**How to use this file.** Keep it open in Positron during class.
+
+- **Demo** sections: type along with me. Some code is already here so you can focus on the new parts.
+- **Try it** and **Verb translation** sections: work on these when I say go.
+- Tasks are labeled **Core** (everyone), **Stretch** (a twist), and **Experienced** (if you already know Python).
+- **pandas tonight.** Already use polars, or curious? You may use it for the Verb translation (see the polars appendix at the end of the slides). The Demos and the unscramble-the-code task are pandas for everyone.
+
+**Data:** this file uses `hotels.csv` and `penguins.csv` from the `data` folder inside your `STAT_7500` folder. Open the `STAT_7500` folder in Positron (File → Open Folder) so `"data/hotels.csv"` can be found.
+
+**Seeing your results.** Unlike R, Python only shows the result of the **last line** in a cell. So:
+
+- **While you work:** put your cursor on a line and press **Cmd/Ctrl + Enter**. That runs just that line and shows its result in the Console, just like in R.
+- **Running a chain:** put your cursor on the **first** line (the one with the opening `(`) before pressing Cmd/Ctrl + Enter, or click **Run Cell**. Positron sends everything up to the matching `)`.
+- **When you want several results to show up in the rendered file:** use one cell per question, or wrap each line in `print()`, ideally with a label: `print("rows:", hotels.shape[0])`.
+
+```{python}
+import numpy as np
+import pandas as pd
+import polars as pl              # not using polars? delete these two lines
+import polars.selectors as cs
+```
+
+# Demo 1: read and inspect
+
+```{python}
+# Demo: read hotels.csv, then check .shape, .columns, .head()
+# your code here
+
+```
+
+```{python}
+# Demo: .info() and .describe()
+# your code here
+
+```
+
+```{python}
+# Demo: what types did pandas guess for children, agent, reservation_status_date?
+# your code here
+
+```
+
+```{python}
+# Demo: one bracket vs. two. What type is each?
+# your code here
+
+```
+
+# Demo 2: select, filter, sort, slice, .loc/.iloc
+
+```{python}
+# Demo: select hotel and lead_time; drop agent; columns starting with "arrival"
+# your code here
+
+```
+
+```{python}
+#| error: true
+# Demo: filter City Hotel with a mask; then try `and` (it errors), then fix it with &
+# your code here
+
+```
+
+```{python}
+# Demo: the same filters with .query(), including @min_lead
+# your code here
+
+```
+
+```{python}
+# Demo: sort by lead_time (descending); .head(), .iloc[0:5], .nlargest()
+# your code here
+
+```
+
+```{python}
+# Demo: sort by lead_time, then compare .loc[0] and .iloc[0]
+# your code here
+
+```
+
+# Try it: unscramble the code
+
+These lines answer: *"For City Hotel bookings with a lead time over a year, show the hotel, lead time, and country, longest lead time first, top 5."* They're scrambled.
+
+```text
+(
+    .sort_values("lead_time", ascending=False)
+    hotels
+    .head(5)
+    [["hotel", "lead_time", "country"]]
+    .query('hotel == "City Hotel" and lead_time > 365')
+)
+```
+
+**Core.** (1) Put the lines in order and run them. (2) Write the dplyr version as a comment. (3) **Validate:** how many rows are there *before* `.head(5)`? (Comment out the last line and add `.shape`.)
+
+```{python}
+# your code here
+
+```
+
+**Stretch.** Swap the order of the `.query()` line and the `[[...]]` line. Does it still work? What if you selected only `["country", "lead_time"]` first?
+
+```{python}
+#| error: true
+# your code here
+
+```
+
+**Experienced.** Write it with a boolean mask (and `&`) instead of `.query()`.
+
+```{python}
+# your code here
+
+```
+
+# Demo 3: count, distinct, assign, summarize
+
+```{python}
+# Demo: distinct hotel x market_segment; unique values of market_segment
+# your code here
+
+```
+
+```{python}
+# Demo: value_counts(), normalize=True, two variables with sort=False
+# your code here
+
+```
+
+```{python}
+# Demo: .assign(little_ones = children + babies) with a lambda
+# your code here
+
+```
+
+```{python}
+# Demo: summary stats for adr: mean, then .agg(["min", "mean", "median", "max"])
+# your code here
+
+```
+
+# Demo 4: missing values, Copy-on-Write
+
+```{python}
+# Demo: count missing values in every column; mean of children
+# your code here
+
+```
+
+```{python}
+# Demo: change a filtered subset; does hotels change? Then h2 = hotels and `is`
+# your code here
+
+```
+
+# Verb translation
+
+Translate each pipeline, then check it against the R output. **Write each answer as one chain.**
+
+The R output is given so you can **validate**: your result should match.
+
+**Core.** Translate all six into pandas chains. (Using polars instead? That's fine; read the data with
+
+```{python}
+#| eval: false
+hotels_pl = pl.read_csv("data/hotels.csv", null_values=["NA", "NULL"], infer_schema_length=None)
+```
+
+and see the polars appendix in the slides.)
+
+**Stretch.** After each step that changes the number of rows, add an `assert` that checks the count, e.g. `assert city.shape[0] == 79330`. (You may need to save an intermediate result to check it.)
+
+**Experienced.** Redo three of them in **polars**, and with pandas 3's `pd.col()`. Which feels closest to dplyr? Answer in a sentence at the bottom.
+
+**1.** City Hotel bookings. *R output: a tibble with 79,330 rows and 32 columns.*
+
+```r
+hotels |>
+  filter(hotel == "City Hotel")
+```
+
+```{python}
+# your code here
+
+```
+
+**2.** Bookings with no adults and at least one child or baby. *R output: 223 rows × 3 columns.*
+
+```r
+hotels |>
+  filter(adults == 0, children >= 1 | babies >= 1) |>
+  select(adults, babies, children)
+```
+
+```{python}
+# your code here
+
+```
+
+**3.** Frequency table of market segment, most common first. *R output: Online TA 56,477; Offline TA/TO 24,219; Groups 19,811; ... Undefined 2.*
+
+```r
+hotels |>
+  count(market_segment, sort = TRUE)
+```
+
+```{python}
+# your code here
+
+```
+
+**4.** Resort Hotel bookings with little ones. *R output: 3,929 rows × 2 columns.*
+
+```r
+hotels |>
+  mutate(little_ones = children + babies) |>
+  filter(little_ones >= 1, hotel == "Resort Hotel") |>
+  select(hotel, little_ones)
+```
+
+```{python}
+# your code here
+
+```
+
+**5.** Unique hotel × market segment combinations, in alphabetical order. *R output: 14 rows × 2 columns, starting with City Hotel / Aviation.*
+
+```r
+hotels |>
+  distinct(hotel, market_segment) |>
+  arrange(hotel, market_segment)
+```
+
+```{python}
+# your code here
+
+```
+
+**6.** Summary of the average daily rate. *R output: min −6.38, mean 102, median 94.6, max 5400.*
+
+```r
+hotels |>
+  summarize(min_adr = min(adr), mean_adr = mean(adr),
+            median_adr = median(adr), max_adr = max(adr))
+```
+
+```{python}
+# your code here
+
+```
+
+*Experienced: which felt closest to dplyr (pandas with `lambda`, pandas 3 `pd.col`, or polars), and why?*
+
+# On your own: penguins
+
+For after class, or if you finish the verb translation early.
+
+**Core.**
+
+1. Read `data/penguins.csv`. How many rows and columns? Which columns have missing values, and how many?
+2. Show only `species`, `island`, and `body_mass_g`.
+3. Which Gentoo penguins weigh more than 5,500 g? Sort heaviest first. How many are there?
+4. How many **female** penguins live on **Dream or Torgersen**? (Use `.isin()`.)
+5. What proportion of penguins live on each island?
+
+```{python}
+# your code here
+
+```
+
+**Stretch.** Add `bill_ratio` = bill length ÷ bill depth with `.assign()`. Which species has the five largest ratios? Then: what proportion of penguins weigh more than 4,500 g? Is that out of *all* 344 penguins or only the ones that were weighed? (Hint: compare `(penguins["body_mass_g"] > 4500).mean()` with the same thing after `.dropna(subset=["body_mass_g"])`.)
+
+```{python}
+# your code here
+
+```
+
+**Experienced.** Compare `penguins.nlargest(5, "body_mass_g")` with `penguins.sort_values("body_mass_g", ascending=False).head(5)`. Do they return the same rows? What's going on with ties? Then count species × sex *including* the missing sexes (`value_counts(..., dropna=False)`).
+
+```{python}
+# your code here
+
+```
