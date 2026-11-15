@@ -14,7 +14,7 @@ import polars as pl              # not using polars? delete these two lines
 import polars.selectors as cs
 ```
 
-**Tool for Parts 2–3:** *pandas / polars / both (delete what doesn't apply)*
+**Tool for Parts 2–3:** *pandas / polars (delete what doesn't apply)*
 
 # Part 1: Predict, then run (pandas, everyone)
 
@@ -26,7 +26,7 @@ df = pd.DataFrame({"name":  ["Ana", "Ben", "Cal", "Dee", "Eli"],
                    "score": [88, np.nan, 95, 72, 81]})
 ```
 
-Write your prediction for each snippet in the text **before** running the chunk. Then run it and write your explanation.
+Write your prediction for each snippet **before** running the chunk. Then run it. If you were wrong, explain why in one sentence; if you were right, write "correct."
 
 **(a)** Prediction:
 
@@ -47,36 +47,13 @@ Explanation:
 **(c)** Prediction:
 
 ```{python}
-df[df["score"] > 80].shape[0]
+print(df.sort_values("score").iloc[0]["name"])
+print(df.sort_values("score").loc[0, "name"])
 ```
 
 Explanation:
 
 **(d)** Prediction:
-
-```{python}
-df.sort_values("score").iloc[0]["name"]
-```
-
-Explanation:
-
-**(e)** Prediction:
-
-```{python}
-df.sort_values("score").loc[0, "name"]
-```
-
-Explanation:
-
-**(f)** Prediction:
-
-```{python}
-df["dept"].value_counts()
-```
-
-Explanation:
-
-**(g)** Prediction:
 
 ```{python}
 #| error: true
@@ -85,20 +62,9 @@ df[df["score"] > 80 and df["dept"] == "A"]
 
 Explanation:
 
-**(h)** Prediction:
-
-```{python}
-df[df["dept"] == "A"]["score"] = 100
-df["score"].max()
-```
-
-Explanation:
-
 # Part 2: Hotel bookings (pandas or polars)
 
 ## Exercise 2
-
-*polars users: read with `pl.read_csv("data/hotels.csv", null_values=["NA", "NULL"], infer_schema_length=None)`.*
 
 ```{python}
 # (a)
@@ -111,19 +77,6 @@ Explanation:
 # your code here
 
 ```
-
-```{python}
-# (c)
-# your code here
-
-```
-
-```{python}
-# (d)
-# your code here
-
-```
-
 
 ## Exercise 3
 
@@ -151,23 +104,6 @@ Shape and validation:
 
 Shape and validation:
 
-```{python}
-# (d)
-# your code here
-
-```
-
-Shape and validation:
-
-**Stretch (optional):** add your `assert`s to the cells above.
-
-**Experienced lane (optional):** Exercise 3 in the other tool
-
-```{python}
-# your code here
-
-```
-
 ## Exercise 4
 
 ```{python}
@@ -182,13 +118,9 @@ Shape and validation:
 
 ```
 
-```{python}
-# (c)
-# your code here
+Which mean would you report, and why?
 
-```
-
-**(d)** Interpretation:
+# Part 3: Star Wars characters (pandas or polars)
 
 ## Exercise 5
 
@@ -204,59 +136,17 @@ Shape and validation:
 
 ```
 
-```{python}
-# (c)
-# your code here
-
-```
-
-Which mean would you report, and why?
-
-# Part 3: Star Wars characters (pandas or polars)
-
-## Exercise 6
-
-*polars users: read with `pl.read_csv("data/starwars.csv", null_values="NA", infer_schema_length=None)`.*
-
-```{python}
-# (a)
-# your code here
-
-```
-
-```{python}
-# (b)
-# your code here
-
-```
-
-```{python}
-# (c)
-# your code here
-
-```
-
 Why is `bmi` missing?
 
-## Exercise 7
-
 ```{python}
-# (a)
+# (c)
 # your code here
 
 ```
-
-```{python}
-# (b)
-# your code here
-
-```
-
-Do the two answers agree? Why or why not?
 
 # Part 4: Copy-on-Write (pandas, everyone)
 
-## Exercise 8
+## Exercise 6
 
 ```{python}
 # (a)
@@ -280,27 +170,10 @@ Explanation:
 
 ```
 
-```{python}
-# (d)
-# your code here
-
-```
-
-**Stretch (optional):**
-
-**Experienced lane (optional):** (i) the flag in polars, and why polars can't have this problem; (ii) Exercise 6(b) with `pd.col()`
-
-```{python}
-# your code here
-
-```
-
 # Part 5: Reflection
 
-## Exercise 9
+## Exercise 7
 
-*(a) and (b): write your paragraph here.*
-
-**(c)** Which tool did you choose for Parts 2–3, and why?
+*Write your 2–3 sentences here.*
 
 **AI acknowledgment (if applicable):**
