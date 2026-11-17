@@ -1,0 +1,134 @@
+---
+title: "Week 12 Practice: Python Data Wrangling II"
+subtitle: "In-class file"
+author: "Your name here"
+format:
+  html:
+    toc: true
+    embed-resources: true
+jupyter: python3
+---
+
+**How to use this file.** Keep it open in Positron during class.
+
+- **Demo** sections: type along with me. Run one line at a time with **Cmd/Ctrl + Enter**.
+- **Try it** and **Your turn**: work on these when I say go. 
+- **pandas tonight.** Already use polars? You may use it for Try it and Your turn.
+
+**Data:** `penguins.csv`, `ucbadmit.csv`, `flights.csv`, `airlines.csv`, and `planes.csv` in the `data` folder inside your `STAT_7500` folder.
+
+```{python}
+import numpy as np
+import pandas as pd
+
+penguins = pd.read_csv("data/penguins.csv")
+ucbadmit = pd.read_csv("data/ucbadmit.csv")
+```
+
+# Demo 1: split-apply-combine
+
+```{python}
+# your code here
+
+```
+
+# Try it: three summaries
+
+
+1. For each island: number of penguins and median flipper length.
+2. For each species and year: mean bill length. Which species-year is longest?
+3. Add `mass_z`: body mass standardized within species (subtract the species mean, divide by the species SD).
+
+```{python}
+# (1)
+
+```
+
+```{python}
+# (2)
+
+```
+
+```{python}
+# (3)
+
+```
+
+
+# Demo 2: joins
+
+```{python}
+purchases = pd.DataFrame({
+    "customer_id": [1, 1, 1, 2, 2, 2],
+    "item": ["bread", "milk", "banana", "milk", "banana", "toilet paper"]})
+prices = pd.DataFrame({
+    "item": ["avocado", "banana", "bread", "milk", "toilet paper"],
+    "price": [0.50, 0.15, 1.00, 0.80, 3.00]})
+
+enrolment = pd.DataFrame({
+    "id": [1, 2, 3],
+    "name": ["Dave Friday", "Hermine", "Sura Selambarom"]})
+survey = pd.DataFrame({
+    "id": [2, 3, 4],
+    "name": ["Hermine", "Sura Selambarom", "Read Only"]})
+
+A = pd.DataFrame({"id": [1, 2, 3], "x": ["a", "b", "c"]})
+B = pd.DataFrame({"id": [1, 2, 2, 4], "y": [10, 20, 21, 40]})
+```
+
+```{python}
+#| error: true
+# your code here
+
+```
+
+# Demo 3: real flights
+
+```{python}
+flights = pd.read_csv("data/flights.csv")
+airlines = pd.read_csv("data/airlines.csv")
+planes = pd.read_csv("data/planes.csv")
+print(flights.shape, airlines.shape, planes.shape)
+```
+
+```{python}
+# your code here
+
+```
+
+# Demo 4: reshaping
+
+```{python}
+customers = pd.DataFrame({"customer_id": [1, 2],
+                          "item_1": ["bread", "milk"],
+                          "item_2": ["milk", "banana"],
+                          "item_3": ["banana", "toilet paper"]})
+```
+
+```{python}
+#| error: true
+# your code here
+
+```
+
+# Your turn: airline delays
+
+*Which airlines have the worst average arrival delays, and does it depend on the NYC airport they leave from?*
+
+**Check as you go:** predict the row count before every join and check it after; make sure group sizes add up; ask what a `NaN` after a pivot means.
+
+
+
+1. Join `flights` to `airlines`. Predict the number of rows first.
+2. For each airline name and origin: number of flights and mean `arr_delay`.
+3. Reshape to one row per airline, one column per origin.
+4. Sort by `JFK`. Which airline is worst there? Does the answer depend on the airport?
+
+```{python}
+# your code here
+
+```
+
+*(4) Your answer:*
+
+

@@ -1,0 +1,183 @@
+---
+title: "Python HW 03 - Group, Join, Reshape"
+author: "Your name here"
+format:
+  html:
+    embed-resources: true
+jupyter: python3
+---
+
+```{python}
+import numpy as np
+import pandas as pd
+```
+
+# Part 1: Predict, then run
+
+## Exercise 1
+
+Write your prediction for each snippet in the text **before** running the cell. Then run it. If your prediction was wrong, explain why in one sentence; if it was right, write "correct."
+
+```{python}
+toy = pd.DataFrame({"g": ["a", "a", "b", None, "b"],
+                    "x": [1.0, np.nan, 3.0, 4.0, 5.0]})
+
+left = pd.DataFrame({"id": [1, 2, 3], "v": ["p", "q", "r"]})
+right = pd.DataFrame({"id": [2, 2, 3, 4], "w": [20, 21, 30, 40]})
+```
+
+**(a)** Prediction:
+
+```{python}
+toy.groupby("g").agg(total=("x", "sum"))
+```
+
+Explanation:
+
+**(b)** Prediction:
+
+```{python}
+toy.groupby("g").agg(n_rows=("x", "size"), n_x=("x", "count"))
+```
+
+Explanation:
+
+**(c)** Prediction:
+
+```{python}
+left.merge(right, on="id")
+```
+
+Explanation:
+
+**(d)** Prediction:
+
+```{python}
+left.merge(right, on="id", how="left")
+```
+
+Explanation:
+
+# Part 2: Hotel bookings
+
+```{python}
+hotels = pd.read_csv("data/hotels.csv")
+```
+
+## Exercise 2
+
+```{python}
+# (a)
+# your code here
+
+```
+
+Does it match R?
+
+```{python}
+# (b)
+# your code here
+
+```
+
+Why did your first attempt at (b) have 11 rows instead of 12?
+
+## Exercise 3
+
+```{python}
+# (a)
+# your code here
+
+```
+
+```{python}
+# (b)
+# your code here
+
+```
+
+(c) Your interpretation:
+
+# Part 3: Joins (NYC flights)
+
+```{python}
+flights = pd.read_csv("data/flights.csv")
+airports = pd.read_csv("data/airports.csv")
+```
+
+## Exercise 4
+
+(a) Your prediction:
+
+```{python}
+# (b)
+# your code here
+
+```
+
+```{python}
+# (c)
+# your code here
+
+```
+
+Why might these airports be missing?
+
+# Part 4: Reshaping
+
+## Exercise 5
+
+```{python}
+scores = pd.DataFrame({"student_id": ["S1", "S2", "S3", "S4"],
+                       "math": [90, 85, 88, 95],
+                       "english": [92, 80, 85, 74]})
+
+patients = pd.DataFrame({
+    "patient_id": ["P1", "P1", "P1", "P2", "P2"],
+    "measurement_time": ["Morning", "Noon", "Evening", "Morning", "Evening"],
+    "systolic_bp": [120, 115, 123, 118, 121]})
+```
+
+(a) Expected rows and columns:
+
+```{python}
+# (a)
+# your code here
+
+```
+
+```{python}
+# (b)
+# your code here
+
+```
+
+What does the `NaN` mean?
+
+## Exercise 6
+
+```{python}
+ucbadmit = pd.read_csv("data/ucbadmit.csv")
+```
+
+```{python}
+# (a)
+# your code here
+
+```
+
+```{python}
+# (b)
+# your code here
+
+```
+
+(c) Your explanation:
+
+# Part 5: Reflection
+
+## Exercise 7
+
+*Write your 2–3 sentences here.*
+
+**AI acknowledgment (if applicable):**
