@@ -1,0 +1,195 @@
+---
+title: "Python HW 04 - Data Visualization"
+author: "Your name here"
+format:
+  html:
+    embed-resources: true
+jupyter: python3
+---
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from plotnine import *
+from mizani.labels import label_percent
+
+mpg = pd.read_csv("data/mpg.csv")
+hotels = pd.read_csv("data/hotels.csv")
+```
+
+# Part 1: Translate ggplot2 to plotnine
+
+## Exercise 1
+
+```{python}
+# (a)
+# your code here
+
+```
+
+```{python}
+# (b): first compute the order of the classes
+# your code here
+
+```
+
+```{python}
+# (b): then make the plot
+# your code here
+
+```
+
+## Exercise 2
+
+**(a)**
+
+**(b)**
+
+**(c)**
+
+**Stretch (optional)**
+
+```{python}
+# your code here
+
+```
+
+# Part 2: Hotel bookings
+
+## Exercise 3
+
+```{python}
+# (a)
+# your code here
+
+```
+
+```{python}
+# (b)
+# your code here
+
+```
+
+**(c)** Which bookings will you exclude, and why?
+
+```{python}
+# (c)
+# your code here
+
+```
+
+```{python}
+# (d)
+# your code here
+
+```
+
+**(d)** Why this binwidth (or plot type)?
+
+**(e)**
+
+## Exercise 4
+
+```{python}
+# (a)
+# your code here
+
+```
+
+**(a)** What's wrong with the order?
+
+```{python}
+# (b)
+# your code here
+
+```
+
+**(c)**
+
+## Exercise 5
+
+**(a)** Predicted number of rows:
+
+```{python}
+# (a)
+# your code here
+
+```
+
+```{python}
+# (b)
+# your code here
+
+```
+
+**(c)**
+
+**Stretch (optional)**
+
+```{python}
+# your code here
+
+```
+
+# Part 3: matplotlib and seaborn
+
+## Exercise 6
+
+```{python}
+# your code here
+
+```
+
+Comparison with plotnine:
+
+**Experienced lane (optional)**
+
+```{python}
+#| eval: false
+# your code here
+
+```
+
+# Part 4: Critique
+
+## Exercise 7
+
+The analyst's plot:
+
+```{python}
+monthly = (hotels
+           .groupby("arrival_date_month", as_index=False)
+           .agg(mean_adr=("adr", "mean")))
+
+fig, ax = plt.subplots(figsize=(9, 4))
+ax.bar(monthly["arrival_date_month"], monthly["mean_adr"],
+       color=["red", "green"] * 6)
+ax.set_ylim(60, 145)
+ax.set_title("PRICES EXPLODE IN THE SUMMER!!!")
+ax.tick_params(axis="x", rotation=45)
+```
+
+**(a)** Problems:
+
+1.
+2.
+3.
+4.
+
+```{python}
+# (b)
+# your code here
+
+```
+
+**(c)**
+
+# Part 5: Reflection
+
+## Exercise 8
+
+*(a) and (b): write your paragraph here.*
+
+**AI acknowledgment (if applicable):**
