@@ -41,24 +41,9 @@ hotels = pd.read_csv("data/hotels.csv")
 
 ```
 
-## Exercise 2
-
-**(a)**
-
-**(b)**
-
-**(c)**
-
-**Stretch (optional)**
-
-```{python}
-# your code here
-
-```
-
 # Part 2: Hotel bookings
 
-## Exercise 3
+## Exercise 2
 
 ```{python}
 # (a)
@@ -66,13 +51,13 @@ hotels = pd.read_csv("data/hotels.csv")
 
 ```
 
+**(b)** Which bookings will you exclude, and why?
+
 ```{python}
 # (b)
 # your code here
 
 ```
-
-**(c)** Which bookings will you exclude, and why?
 
 ```{python}
 # (c)
@@ -80,35 +65,9 @@ hotels = pd.read_csv("data/hotels.csv")
 
 ```
 
-```{python}
-# (d)
-# your code here
+**(c)** How do prices at the two hotels compare?
 
-```
-
-**(d)** Why this binwidth (or plot type)?
-
-**(e)**
-
-## Exercise 4
-
-```{python}
-# (a)
-# your code here
-
-```
-
-**(a)** What's wrong with the order?
-
-```{python}
-# (b)
-# your code here
-
-```
-
-**(c)**
-
-## Exercise 5
+## Exercise 3
 
 **(a)** Predicted number of rows:
 
@@ -124,25 +83,7 @@ hotels = pd.read_csv("data/hotels.csv")
 
 ```
 
-**(c)**
-
-**Stretch (optional)**
-
-```{python}
-# your code here
-
-```
-
-# Part 3: matplotlib and seaborn
-
-## Exercise 6
-
-```{python}
-# your code here
-
-```
-
-Comparison with plotnine:
+**(b)**
 
 **Experienced lane (optional)**
 
@@ -152,44 +93,13 @@ Comparison with plotnine:
 
 ```
 
-# Part 4: Critique
+# Part 3: matplotlib and seaborn
 
-## Exercise 7
-
-The analyst's plot:
+## Exercise 4
 
 ```{python}
-monthly = (hotels
-           .groupby("arrival_date_month", as_index=False)
-           .agg(mean_adr=("adr", "mean")))
-
-fig, ax = plt.subplots(figsize=(9, 4))
-ax.bar(monthly["arrival_date_month"], monthly["mean_adr"],
-       color=["red", "green"] * 6)
-ax.set_ylim(60, 145)
-ax.set_title("PRICES EXPLODE IN THE SUMMER!!!")
-ax.tick_params(axis="x", rotation=45)
-```
-
-**(a)** Problems:
-
-1.
-2.
-3.
-4.
-
-```{python}
-# (b)
 # your code here
 
 ```
 
-**(c)**
-
-# Part 5: Reflection
-
-## Exercise 8
-
-*(a) and (b): write your paragraph here.*
-
-**AI acknowledgment (if applicable):**
+Which would you reach for first, and why?
