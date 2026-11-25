@@ -1,0 +1,234 @@
+---
+title: "Week 13 Practice: Python Data Visualization"
+subtitle: "In-class file"
+author: "SOLUTIONS"
+format:
+  html:
+    toc: true
+    embed-resources: true
+jupyter: python3
+---
+
+**How to use this file.** Keep it open in Positron during tonight's Zoom class.
+
+- **Demo** sections: type along with me.
+- **Your turn**: work on it when I say go. **Core** is for everyone; **Stretch** and **Experienced** are extras.
+
+**Seeing your results.** Python only shows the result of the **last line** in a cell, and plots follow the same rule:
+
+- A plotnine plot shows up when it's the **last** thing in the cell. If you want two plots, use two cells.
+- **While you work:** put your cursor on the first line of a plot (the `(`) and press **Cmd/Ctrl + Enter**. Positron sends the whole plot and it appears in the **Plots** pane. If nothing appears, save the plot to a name and run `p.show()`.
+- **matplotlib/seaborn:** the figure shows up at the end of the cell. A semicolon `;` at the end of the last line hides a stray text label like `Text(0.5, 1.0, '...')`.
+
+**New packages this week.** If `from plotnine import *` gives `ModuleNotFoundError`, run this in the Positron **Python console** (not this document), then restart the session (↻):
+
+```python
+%pip install plotnine seaborn
+```
+
+**Data:** `penguins.csv`, `volleyball_ncaa_div1_2022_23_clean.csv`, and `ucbadmit.csv` in the `data` folder inside your `STAT_7500` folder.
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotnine
+from plotnine import *
+from mizani.labels import label_percent
+
+penguins = pd.read_csv("data/penguins.csv")
+volleyball = pd.read_csv("data/volleyball_ncaa_div1_2022_23_clean.csv")
+ucbadmit = pd.read_csv("data/ucbadmit.csv")
+
+print(penguins.shape, volleyball.shape, ucbadmit.shape)
+print("pandas  ", pd.__version__)
+print("plotnine", plotnine.__version__)
+print("seaborn ", sns.__version__)
+```
+
+# Demo 1: plotnine, layer by layer
+
+```{python}
+# your code here
+(
+  ggplot(volleyball, aes(x="kills_per_set")) 
+    + geom_histogram(color="white", binwidth=0.5)  
+    + facet_wrap("region")
+)
+
+(
+    ggplot(penguins, aes(x="bill_depth_mm", y="bill_length_mm", color="species"))
+    + geom_point()
+    + labs(title="Bill depth and length",
+           x="Bill depth (mm)", y="Bill length (mm)", color="Species")
+    + scale_color_cmap_d("viridis")
+    + theme_minimal()
+)
+
+(
+    ggplot(penguins, aes(x="flipper_length_mm", y="body_mass_g"))
+    + geom_point(color="navy")
+)
+
+(
+    ggplot(penguins, aes(x="flipper_length_mm", y="body_mass_g"))
+    + geom_point(color="navy")
+)
+```
+
+# Demo 2: bar charts
+
+For percent labels on an axis, use `scale_y_continuous(labels=label_percent())`.
+
+```{python}
+# your code here
+(
+    ggplot(volleyball, aes(x="conference", fill="winning_season"))
+    + geom_bar(position="fill")
+    + coord_flip()
+    + theme(axis_text_y=element_text(size=6))
+    + labs(y="Proportion", x="", fill="Winning season?")
+)
+```
+
+# Demo 3: ordering categories
+
+```{python}
+# your code here
+conf_order = volleyball["conference"].value_counts().index   # most common first
+
+(
+    volleyball
+    .assign(conference=lambda d: pd.Categorical(d["conference"],
+                                                categories=conf_order[::-1]))
+    .pipe(ggplot, aes(x="conference"))
+    + geom_bar()
+    + coord_flip()
+    + theme(axis_text_y=element_text(size=6))
+)
+
+conf_order = volleyball["conference"].value_counts(ascending=True).index   # most common first
+
+(
+    volleyball
+    .assign(conference=lambda d: pd.Categorical(d["conference"],
+                                                categories=conf_order))
+    .pipe(ggplot, aes(x="conference"))
+    + geom_bar()
+    + coord_flip()
+    + theme(axis_text_y=element_text(size=6))
+)
+```
+
+# Demo 4: matplotlib, the Figure/Axes model
+
+```{python}
+# your code here
+fig, ax = plt.subplots()          # a Figure (canvas) with one Axes (panel)
+ax.scatter(penguins["flipper_length_mm"], penguins["body_mass_g"])
+ax.set_title("Flipper length and body mass")
+ax.set_xlabel("Flipper length (mm)")
+ax.set_ylabel("Body mass (g)");
+```
+
+# Demo 5: seaborn and matplotlib together
+
+```{python}
+# your code here
+import seaborn as sns
+
+fig, ax = plt.subplots()
+sns.scatterplot(data=penguins, x="flipper_length_mm", y="body_mass_g",
+                hue="species", ax=ax)
+ax.set(title="seaborn: hue does the grouping for you",
+       xlabel="Flipper length (mm)", ylabel="Body mass (g)");
+```
+
+# Your turn: recreate an R plot
+
+This is the Week 5 plot of the Berkeley admissions data. Remember Simpson's paradox: overall, men were admitted at a higher rate; within most departments, women were.
+
+**Core.** Translate this plot into plotnine.
+
+```r
+ggplot(ucbadmit, aes(y = gender, fill = admit)) +
+  geom_bar(position = "fill") +
+  facet_wrap(. ~ dept) +
+  scale_fill_viridis_d() +
+  labs(title = "Admissions by gender and department",
+       x = NULL, y = NULL, fill = NULL) +
+  theme(legend.position = "bottom")
+```
+
+**What you should see:** one panel for each department (A to F), each with a bar for Female and a bar for Male, filled by Admitted and Rejected.
+
+```{python}
+(
+  ggplot(ucbadmit, aes(x = "gender", fill = "admit")) +
+  geom_bar(position = "fill") +
+  coord_flip() +
+  facet_wrap("dept") +
+  scale_fill_cmap_d("viridis") +
+  labs(title = "Admissions by gender and department",
+       x = "", y = "", fill = "") +
+  theme(legend_position = "bottom")
+)
+```
+
+**Stretch.** Add percent labels, and order the departments by their **overall** admission rate (lowest to highest). *Hint:* compute the rate with `groupby("dept")`, sort it, and use its index as the `categories=` of a `pd.Categorical`.
+
+```{python}
+dept_rates = (
+    ucbadmit
+    .assign(admitted=lambda d: d["admit"] == "Admitted")
+    .groupby("dept")["admitted"]
+    .mean()
+    .sort_values()
+)
+dept_rates
+
+
+(
+    ucbadmit
+    .assign(dept=lambda d: pd.Categorical(d["dept"], categories=dept_rates.index))
+    .pipe(ggplot, aes(x="gender", fill="admit"))
+    + geom_bar(position="fill")
+    + coord_flip()
+    + facet_wrap("dept")
+    + scale_y_continuous(labels=label_percent())
+    + scale_fill_cmap_d("viridis")
+    + labs(title="Admissions by gender and department",
+           subtitle="Departments ordered from lowest to highest overall admission rate",
+           x="", y="", fill="")
+    + theme(legend_position="bottom")
+)
+
+```
+
+**Experienced.** Make an interactive version of your Demo 1 plot with **Altair** or **Plotly Express**, with a tooltip showing island and sex (`%pip install altair` or `%pip install plotly` first). How does its grammar compare with ggplot's?
+
+Fill in the `...` in one of these shells (columns are strings in both, like `aes()`). Run it in the console, not in this file.
+
+```{python}
+# Plotly Express: one function per plot type
+import plotly.express as px
+px.scatter(penguins, x="bill_depth_mm", y="bill_length_mm", color="species",
+           hover_data=["island", "sex"],
+           labels={"bill_depth_mm": "Bill depth (mm)",
+                   "bill_length_mm": "Bill length (mm)"})
+
+# Altair: data, then a mark, then encodings
+import altair as alt
+(
+    alt.Chart(penguins)
+    .mark_point()
+    .encode(x=alt.X("bill_depth_mm", scale=alt.Scale(zero=False), title="Bill depth (mm)"),
+            y=alt.Y("bill_length_mm", scale=alt.Scale(zero=False), title="Bill length (mm)"),
+            color="species",
+            tooltip=["species", "island", "sex"])
+    .interactive()
+)
+```
+
+*Hint:* Altair starts its axes at zero. If the points bunch up, look up `alt.Scale(zero=False)`.
